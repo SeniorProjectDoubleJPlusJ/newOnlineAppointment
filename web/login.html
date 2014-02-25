@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Log In</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+    </head>
+    <body onload="checkSignin()">
+        Username: <input type="text" name="username" id="username" /> <br>
+        Password: <input type="password" name="password" id="password"/>
+        <p id="text"></p>
+        <input type="submit" value="Log In" onclick="myFunction()"/>
+        <input type="submit" value="Register" onclick="go()"/>
+        <script>
+            function checkSignin(){
+                var x = document.cookie;
+                if(x!==""){
+                    window.location = "http://localhost:8080/OnlineAppointmentSystem/main.html";
+                }
+            }
+            
+            function myFunction() {
+                var u = document.getElementById("username").value;
+                var p = document.getElementById("password").value;
+                if (u === "" || p === "") {
+                    document.getElementById("text").innerHTML = "Please enter Username and Password";
+                    //document.getElementById("text").innerHTML = "cookie is: "+document.cookie;
+                } else {
+                    var s = "http://localhost:8080/OnlineAppointmentSystem/webresources/entities.users/login/"
+                            + document.getElementById("username").value + "/" + document.getElementById("password").value;
+                    var xmlhttp = null;
+                    if (window.XMLHttpRequest)
+                    {// code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else
+                    {// code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function()
+                    {
+                        if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
+                        {
+                            return xmlhttp.responseText;
+                        }
+                    };
+                    xmlhttp.open("POST", s, false);
+                    xmlhttp.send();
+                    var message = xmlhttp.responseText.toString();
+                    if (message === "Log In") {
+                        document.cookie = "username=" + u + "; Expires=Tue, 09 Jun 2099 10:18:14 GMT";
+                        document.cookie = "password=" + p + "; Expires=Tue, 09 Jun 2099 10:18:14 GMT";
+                        window.location = "http://localhost:8080/OnlineAppointmentSystem/main.html";
+                    } else {
+                        document.getElementById("text").innerHTML = message;
+                    }
+                }
+            }
+
+            function go() {
+                window.location = "http://localhost:8080/OnlineAppointmentSystem/register.html";
+            }
+        </script>
+    </body>
+</html>

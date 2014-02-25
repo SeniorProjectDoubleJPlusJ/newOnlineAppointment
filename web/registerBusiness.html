@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Register Business</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body onload="checkSignin()">
+        <h2>Register Business</h2>
+        Business Name:<input type="text" name="storename" id="storename">*<br>
+        Phone: (<input type="text" name="p1" id="p1" size="3">)
+        <input type="text" name="p2" id="p2" size="3">
+        -<input type="text" name="p3" id="p3" size="4">* <br>
+        Address: <input type="text" id="a1">*<br>
+        City: <input type="text" id="a2">*<br>
+        State: <select id="a3" size="1">
+            <option selected value="">Select...</option>
+            <option value="">-- UNITED STATES --</option>
+            <option value="Alabama">Alabama</option>
+            <option value="Alaska">Alaska</option>
+            <option value="Arizona">Arizona</option>
+            <option value="Arkansas">Arkansas</option>
+            <option value="California">California</option>
+            <option value="Colorado">Colorado</option>
+            <option value="Connecticut">Connecticut</option>
+            <option value="Delaware">Delaware</option>
+            <option value="Florida">Florida</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Hawaii">Hawaii</option>
+            <option value="Idaho">Idaho</option>
+            <option value="Illinois">Illinois</option>
+            <option value="Indiana">Indiana</option>
+            <option value="Iowa">Iowa</option>
+            <option value="Kansas">Kansas</option>
+            <option value="Kentucky">Kentucky</option>
+            <option value="Louisiana">Louisiana</option>
+            <option value="Maine">Maine</option>
+            <option value="Maryland">Maryland</option>
+            <option value="Massachusetts">Massachusetts</option>
+            <option value="Michigan">Michigan</option>
+            <option value="Minnesota">Minnesota</option>
+            <option value="Mississippi">Mississippi</option>
+            <option value="Missouri">Missouri</option>
+            <option value="Montana">Montana</option>
+            <option value="Nebraska">Nebraska</option>
+            <option value="Nevada">Nevada</option>
+            <option value="New Hampshire">New Hampshire</option>
+            <option value="New Jersey">New Jersey</option>
+            <option value="New Mexico">New Mexico</option>
+            <option value="New York">New York</option>
+            <option value="North Carolina">North Carolina</option>
+            <option value="North Dakota">North Dakota</option>
+            <option value="Ohio">Ohio</option>
+            <option value="Oklahoma">Oklahoma</option>
+            <option value="Oregon">Oregon</option>
+            <option value="Pennsylvania">Pennsylvania</option>
+            <option value="Rhode Island">Rhode Island</option>
+            <option value="South Carolina">South Carolina</option>
+            <option value="South Dakota">South Dakota</option>
+            <option value="Tennessee">Tennessee</option>
+            <option value="Texas">Texas</option>
+            <option value="Utah">Utah</option>
+            <option value="Vermont">Vermont</option>
+            <option value="Virginia">Virginia</option>
+            <option value="Washington">Washington</option>
+            <option value="West Virginia">West Virginia</option>
+            <option value="Wisconsin">Wisconsin</option>
+            <option value="Wyoming">Wyoming</option>
+            <option value="">-- CANADA --</option>
+            <option value="Alberta">Alberta</option>
+            <option value="British Columbia">British Columbia</option>
+            <option value="Manitoba">Manitoba</option>
+            <option value="New Brunswick">New Brunswick</option>
+            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+            <option value="Northwest Territories">Northwest Territories</option>
+            <option value="Nova Scotia">Nova Scotia</option>
+            <option value="Nunavut">Nunavut</option>
+            <option value="Ontario">Ontario</option>
+            <option value="Prince Edward Island">Prince Edward Island</option>
+            <option value="Quebec">Quebec</option>
+            <option value="Saskatchewan">Saskatchewan</option>
+            <option value="Yukon Territory">Yukon Territory</option>
+            <option value="">-- AUSTRALIA --</option>
+            <option value="Australian Capital Territory">Australian Capital Territory</option>
+            <option value="New South Wales">New South Wales</option>
+            <option value="Northern Territory">Northern Territory</option>
+            <option value="Queensland">Queensland</option>
+            <option value="South Australia">South Australia</option>
+            <option value="Tasmania">Tasmania</option>
+            <option value="Victoria">Victoria</option>
+            <option value="Western Australia">Western Australia</option>
+        </select>*<br>
+        Zip Code: <input type="text" id="a4" size="5">*<br>
+        <p id="text"></p>
+        <input type="submit" value="Register" onclick="myFunction()"/>
+
+
+        <script>
+            function myFunction() {
+                var storename = document.getElementById("storename").value;
+                var a1 = document.getElementById("a1").value;
+                var a2 = document.getElementById("a2").value;
+                var a3 = document.getElementById("a3").value;
+                var a4 = document.getElementById("a4").value;
+                var p1 = document.getElementById("p1").value;
+                var p2 = document.getElementById("p2").value;
+                var p3 = document.getElementById("p3").value;
+                if (storename === "" || a1 === "" || a2 === "" || a4 === "") {
+                    document.getElementById("text").innerHTML = "All * fields cannot be empty";
+                } else if (p1.length !== 3 || p2.length !== 3 || p3.length !== 4 || isNaN(p1) || isNaN(p2) || isNaN(p3)) {
+                    document.getElementById("text").innerHTML = "Phone format is incorrect";
+                } else if (a3 === "") {
+                    document.getElementById("text").innerHTML = "Please select state.";
+                } else if (isNaN(a4) || a4.length !== 5) {
+                    document.getElementById("text").innerHTML = "Zip Code is incorrect";
+                } else {
+                    var phone = "(" + p1 + ")" + p2 + "-" + p3;
+                    var address = a1.replace(",", ".") + ", " + a2.replace(",", ".") + ", " + a3 + ", " + a4.replace(",", ".");
+                    var s = "http://localhost:8080/OnlineAppointmentSystem/webresources/entities.businesses/create"
+                            + "?storename=" + storename
+                            + "&phone=" + phone
+                            + "&address=" + address;
+                    var xmlhttp = null;
+                    if (window.XMLHttpRequest)
+                    {// code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else
+                    {// code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function()
+                    {
+                        if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
+                        {
+                            return xmlhttp.responseText;
+                        }
+                    };
+                    xmlhttp.open("POST", s, false);
+                    xmlhttp.send();
+                    var message = xmlhttp.responseText.toString();
+                    if (!isNaN(message)) {
+                        alert("Register Successful");
+                        document.getElementById("text").innerHTML = "";
+                        var businessid = parseInt("message");
+                        document.cookie = "businessid=" + businessid + "; Expires=Tue, 09 Jun 2099 10:18:14 GMT";
+                    } else {
+                        document.getElementById("text").innerHTML = message;
+                    }
+                }
+            }
+
+            function checkSignin() {
+                var x = document.cookie;
+                if (x === "") {
+                    window.location = "http://localhost:8080/OnlineAppointmentSystem/login.html";
+                }
+            }
+        </script>
+    </body>
+</html>

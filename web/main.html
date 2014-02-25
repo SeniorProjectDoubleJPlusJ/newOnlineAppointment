@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Main Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style>
+            a.pos_fixed{
+                position:fixed;
+                top:5px;
+                right:5px;
+            }
+        </style>
+    </head>
+    <body onload="checkSignin()">
+        <a class="pos_fixed" href="http://localhost:8080/OnlineAppointmentSystem/login.html" onclick="signout()">Sign Out</a>
+        <p id="text"></p>
+        <script>
+            function signout(){
+                document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "password=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                document.cookie = "businessid=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+            
+            function checkSignin(){
+                var x = document.cookie;
+                if(x===""){
+                    window.location = "http://localhost:8080/OnlineAppointmentSystem/login.html";
+                }
+            }
+        </script>
+    </body>
+</html>

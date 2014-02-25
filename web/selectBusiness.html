@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Select Business</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+        <style>
+            tr:nth-child(odd) { background-color : #00CCFF; }
+            tr:nth-child(even) { background-color : #0099FF; }
+            tr:hover { background-color : #0066FF; }
+            .selected {background: #0000FF}
+        </style>
+    </head>
+    <body onLoad="clientSideInclude('includeone', 'http://localhost:8080/OnlineAppointmentSystem/webresources/entities.businesses/list');">
+
+        <input type="text" value="Search system is not available yet." size="30" id="searchText"/>
+        <input type="submit" value="Search" id="search"/><br>
+        Please select one of the businesses:<br>
+        <span id="includeone"></span><br>
+        <p id="text"></p>
+        <input type="submit" onclick="myFunction()"/>
+        <script>
+            var businessid = 0;
+            function setId(id) {
+                businessid = id;
+            }
+            function myFunction() {
+                document.getElementById("text").innerHTML = businessid;
+            }
+        </script>
+    </body>
+</html>

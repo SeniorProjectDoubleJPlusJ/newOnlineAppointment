@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Register</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script language="JavaScript" src="clientSideInclude.js"></script>
+        <style>
+            h2.pos_fixed{
+                position:relative;
+                top:10px;
+                left:47%;
+            }
+            p.pos_fixed{
+                position:relative;
+                left:40%;
+            }
+            input.pos_fixed{
+                position:absolute;
+                left:50%;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 class="pos_fixed">Register</h2>
+
+        <p class="pos_fixed">
+            Username: <input type="text" name="username" id="username">* <br>
+            Password: <input type="password" name="password" id="password">* <br>
+            Re-enter Password: <input type="password" name="re_password" id="re_password">* <br>
+            First Name: <input type="text" name="firstname" id="firstname">* <br>
+            Last Name: <input type="text" name="lastname" id="lastname">* <br>
+            Gender: <select name="gender" id="gender"> 
+                <option value=null>Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>*<br>
+            Phone: (<input type="text" name="p1" id="p1" size="3">)
+            <input type="text" name="p2" id="p2" size="3">
+            -<input type="text" name="p3" id="p3" size="4">* <br>
+            E-mail: <input type="text" name="email" id="email">(optional) <br>
+        </p>
+        <p class="pos_fixed" id="text"></p>
+        <p class="pos_fixed">
+        <input type="submit" value="<< Return to Log In page" onclick="go()"/>
+        <input type="submit" value="Register" onclick="myFunction()"/>
+        </p>
+
+        <script>
+            function myFunction() {
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var re_password = document.getElementById("re_password").value;
+                var firstname = document.getElementById("firstname").value;
+                var lastname = document.getElementById("lastname").value;
+                var gender = document.getElementById("gender").value;
+                var email = document.getElementById("email").value;
+                var p1 = document.getElementById("p1").value;
+                var p2 = document.getElementById("p2").value;
+                var p3 = document.getElementById("p3").value;
+
+                if (username === "" || password === "" || re_password === "" || firstname === "" || lastname === "") {
+                    document.getElementById("text").innerHTML = "All * fields cannot be empty";
+                } else if (gender === ""||gender===null) {
+                    document.getElementById("text").innerHTML = "Please select gender";
+                } else if (password.length < 6 || password.length > 14) {
+                    document.getElementById("text").innerHTML = "Password must be 6 to 14 charaters long";
+                } else if (password !== re_password) {
+                    document.getElementById("text").innerHTML = "Password and Re-enter Password must be the same";
+                } else if (p1.length !== 3 || p2.length !== 3 || p3.length !== 4 || isNaN(p1) || isNaN(p2) || isNaN(p3)) {
+                    document.getElementById("text").innerHTML = "Phone format is incorrect";
+                } else {
+                    var phone = "(" + p1 + ")" + p2 + "-" + p3;
+                    var s = "http://localhost:8080/OnlineAppointmentSystem/webresources/entities.users/create"
+                            + "?username=" + username
+                            + "&password=" + password
+                            + "&firstname=" + firstname
+                            + "&lastname=" + lastname
+                            + "&gender=" + gender
+                            + "&phone=" + phone
+                            + "&email=" + email;
+                    var xmlhttp = null;
+                    if (window.XMLHttpRequest)
+                    {// code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else
+                    {// code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function()
+                    {
+                        if (xmlhttp.readyState === 4 && xmlhttp.status === 200)
+                        {
+                            return xmlhttp.responseText;
+                        }
+                    };
+                    xmlhttp.open("POST", s, false);
+                    xmlhttp.send();
+                    var message = xmlhttp.responseText.toString();
+                    if (message === "Register Successful") {
+                        alert(message);
+                        document.getElementById("text").innerHTML = "";
+                    } else {
+                        document.getElementById("text").innerHTML = message;
+                    }
+                }
+            }
+
+            function go() {
+                window.location = "http://localhost:8080/OnlineAppointmentSystem/login.html";
+            }
+        </script>
+    </body>
+</html>
